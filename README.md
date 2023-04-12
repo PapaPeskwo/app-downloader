@@ -3,10 +3,10 @@
 This project is a Python script that can download and install Terraform on Windows and Linux machines.
 ## Prerequisites
 
-Python 3.x installed
-requests==2.26.0
-beautifulsoup4==4.10.0
-lxml==4.6.3
+- Python 3.x installed
+- requests==2.26.0
+- beautifulsoup4==4.10.0
+- lxml==4.6.3
 
 ## Getting Started
 
