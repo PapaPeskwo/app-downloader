@@ -17,6 +17,7 @@ This project is a Python script that can download and install Terraform on Windo
 ## Supported apps 
 - Terraform
 - Docker
+- Balena Etcher
 
 ## Getting Started
 
