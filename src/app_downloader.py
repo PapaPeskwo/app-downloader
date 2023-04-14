@@ -7,6 +7,7 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup
 import json
 import sys
+from urllib.parse import urlparse
 
 SETTINGS_FILE = 'settings.json'
 
@@ -104,13 +105,58 @@ def get_latest_prometheus_url():
 
     raise ValueError("Unable to find the latest Prometheus download URL for Windows.")
 
+python_versions = {
+    "3.7": "https://www.python.org/ftp/python/3.7.12/python-3.7.12-amd64.exe",
+    "3.8": "https://www.python.org/ftp/python/3.8.13/python-3.8.13-amd64.exe",
+    "3.9": "https://www.python.org/ftp/python/3.9.10/python-3.9.10-amd64.exe",
+    "3.10": "https://www.python.org/ftp/python/3.10.7/python-3.10.7-amd64.exe",
+    "3.11": "https://www.python.org/ftp/python/3.11.3/python-3.11.3-amd64.exe",
+}
+
+def download_python():
+    from packaging import version
+
+    base_url = "https://www.python.org"
+    version_list_url = "https://www.python.org/downloads/windows/"
+    response = requests.get(version_list_url)
+    soup = BeautifulSoup(response.content, "html.parser")
+
+    python_versions = {}
+    for link in soup.find_all("a"):
+        url = link.get("href", "")
+        if "/ftp/python/" in url and "amd64.exe" in url:
+            version_str = urlparse(url).path.split("/")[-2]
+            major_minor_version = ".".join(version_str.split(".")[:2])
+            if version.parse(major_minor_version) >= version.parse("3.7"):
+                python_versions[major_minor_version] = url
+
+    sorted_versions = sorted(python_versions.keys(), key=lambda ver: version.parse(ver), reverse=True)
+
+    print("Available Python versions:")
+    for ver in sorted_versions:
+        print(ver)
+
+    selected_version = input("Enter the Python version you want to download: ")
+    if selected_version in python_versions:
+        url = python_versions[selected_version]
+        file_name = f"python-{selected_version}-amd64.exe"
+        output_file = os.path.join(get_download_location(), file_name)
+        print(f"Downloading {file_name}...")
+        download_file(url)
+        print(f"Downloaded {file_name} successfully.")
+    else:
+        print("Invalid Python version selected.")
+
+
+
 
 def download_apps(app_list):
     apps = {
         "terraform": get_latest_terraform_url(),
         "docker": "https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe",
         "balena_etcher": get_latest_balena_etcher_url(),
-        "prometheus": get_latest_prometheus_url()
+        "prometheus": get_latest_prometheus_url(),
+        "python": None,  
     }
 
     for app_name in app_list:
@@ -118,8 +164,11 @@ def download_apps(app_list):
         if url:
             output_file = download_file(url)
             print(f"{app_name} downloaded successfully as {output_file}.")
+        elif app_name == "python":  
+            download_python()
         else:
             print(f"{app_name} is not available for download.")
+
 
 
 def list_available_downloads():
@@ -128,6 +177,7 @@ def list_available_downloads():
     print("2. Docker")
     print("3. Balena Etcher")
     print("4. Prometheus")
+    print("5. Python")
 
 def main_menu():
     print("\n" + "=" * 30)
@@ -159,7 +209,8 @@ def download_apps_menu():
         "1": "terraform",
         "2": "docker",
         "3": "balena_etcher",
-        "4": "prometheus"
+        "4": "prometheus",
+        "5": "python"
     }
 
     app_list = [app_map.get(app) for app in selected_apps]
