@@ -5,23 +5,54 @@ import zipfile
 import json
 from tqdm import tqdm
 from bs4 import BeautifulSoup
+import json
+import sys
 
+SETTINGS_FILE = 'settings.json'
+
+def load_settings():
+    if os.path.exists(SETTINGS_FILE):
+        with open(SETTINGS_FILE, 'r') as f:
+            return json.load(f)
+    else:
+        return {}
+
+def save_settings(settings):
+    with open(SETTINGS_FILE, 'w') as f:
+        json.dump(settings, f, indent=2)
+
+def set_standard_download_location():
+    settings = load_settings()
+    print("Current standard download location:", settings.get('standard_download_location', 'Not set'))
+    new_location = input("Enter the new standard download location (or leave blank to cancel):\n").strip()
+    if new_location:
+        if os.path.exists(new_location) and os.path.isdir(new_location):
+            settings['standard_download_location'] = new_location
+            save_settings(settings)
+            print("Standard download location has been updated.")
+        else:
+            print("Invalid directory. Please enter a valid directory.")
+
+def get_download_location():
+    settings = load_settings()
+    return settings.get('standard_download_location', '')
 
 def extract_zip(zip_file, output_path):
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
         zip_ref.extractall(output_path)
 
-def download_file(url, output_file=None):
+def download_file(url):
     response = requests.get(url, stream=True)
     total_size = int(response.headers.get('content-length', 0))
     
-    if output_file is None:
-        output_file = url.split("/")[-1]
+    filename = url.split("/")[-1]
+    output_file = os.path.join(get_download_location(), filename)
 
     with open(output_file, 'wb') as f:
         for chunk in tqdm(response.iter_content(chunk_size=8192), total=total_size // 8192, unit='KB', desc=output_file):
             f.write(chunk)
     return output_file
+
 
 def get_latest_terraform_url():
     api_url = "https://checkpoint-api.hashicorp.com/v1/check/terraform"
@@ -104,8 +135,9 @@ def main_menu():
     print("=" * 30)
     print("1. List all available downloads")
     print("2. Download applications")
-    print("3. Exit")
-    choice = int(input("\nChoose an option (1-3): "))
+    print("3. Settings")
+    print("4. Exit")
+    choice = int(input("\nChoose an option (1-4): "))
     return choice
 
 def download_menu():
@@ -142,6 +174,22 @@ def download_all_apps_menu():
     else:
         print("Cancelled download all apps.")
 
+def settings_menu():
+    print("\n" + "=" * 30)
+    print("Settings Menu:")
+    print("=" * 30)
+    print("1. Set standard download location")
+    print("2. Go back to the main menu")
+    choice = int(input("\nChoose an option (1-2): "))
+
+    if choice == 1:
+        set_standard_download_location()
+    elif choice == 2:
+        return
+    else:
+        print("Invalid choice. Please try again.")
+
+
 if __name__ == "__main__":
     os_name = platform.system()
     if os_name == "Windows":
@@ -158,6 +206,8 @@ if __name__ == "__main__":
                 else:
                     print("Invalid choice. Please try again.")
             elif choice == 3:
+                    settings_menu()
+            elif choice == 4:
                 print("Exiting...")
                 break
             else:
