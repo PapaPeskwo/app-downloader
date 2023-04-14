@@ -1,3 +1,6 @@
+![CI/CD Pipeline](https://github.com/PapaPeskwo/app-downloader/actions/workflows/ci-cd.yml/badge.svg)
+
+
 # App Downloader
 
 This project is a Python script that can download and install Terraform on Windows and Linux machines.
