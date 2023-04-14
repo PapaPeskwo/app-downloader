@@ -162,3 +162,7 @@ cython_debug/
 # Added by PapaPeskwo
 *.exe
 *.zip
+*.rar
+*.7z
+*.msi
+*.json
