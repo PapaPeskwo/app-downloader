@@ -7,3 +7,4 @@ pytest-cov==4.0.0
 pytest-django==4.5.2
 bs4==0.0.1
 packaging==21.3
+pytest-mock==3.10.0
