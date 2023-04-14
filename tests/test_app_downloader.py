@@ -1,6 +1,13 @@
 import os
 import pytest
-from src.app_downloader import download_file, get_latest_terraform_url, get_latest_balena_etcher_url, get_latest_prometheus_url
+from src.app_downloader import (
+    download_file,
+    get_latest_terraform_url,
+    get_latest_balena_etcher_url,
+    get_latest_prometheus_url,
+    download_python,
+)
+
 
 def get_latest_terraform_url(os_name="windows"):
     os_name = "windows"
