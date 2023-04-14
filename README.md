@@ -20,7 +20,7 @@ This project is a Python script that can download and install Terraform on Windo
 - Terraform
 - Docker
 - Balena Etcher
-
+- Prometheus
 
 ## Getting Started
 
