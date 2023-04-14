@@ -1,6 +1,8 @@
 # App Downloader
 
 This project is a Python script that can download and install Terraform on Windows and Linux machines.
+
+
 ## Prerequisites
 
 - Python 3.x installed
@@ -19,6 +21,7 @@ This project is a Python script that can download and install Terraform on Windo
 - Docker
 - Balena Etcher
 
+
 ## Getting Started
 
 To get started with this project, you can clone the source code from the repository and install the dependencies by running the following command in your terminal:
@@ -31,10 +34,8 @@ After installing the dependencies, you can run the script by executing the follo
 ```bash
 python src/app_downloader.py
 ```
-The script will automatically detect your operating system and download the latest version of Terraform from the official website.
-Note
+The script will present a menu with options to list and download supported applications. It automatically detects your operating system and downloads the latest version of the selected apps from their official sources.
 
-At the moment, this project only has one app, Terraform, but there are plans to expand it to include more apps in the future.
 
 ## Contributing
 
