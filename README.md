@@ -1,4 +1,4 @@
-[![CI/CD Pipeline](https://github.com/PapaPeskwo/app-downloader/actions/workflows/ci-cd.yaml/badge.svg?branch=master)](https://github.com/PapaPeskwo/app-downloader/actions/workflows/ci-cd.yaml)
+[![CI/CD Pipeline](https://github.com/PapaPeskwo/app-downloader/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/PapaPeskwo/app-downloader/actions/workflows/ci-cd.yaml)
 
 
 # App Downloader
