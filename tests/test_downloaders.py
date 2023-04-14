@@ -1,11 +1,20 @@
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent / "src"))
+
 import os
 import pytest
-from src.app_downloader import (
+from src.downloaders import (
     download_file,
     get_latest_terraform_url,
     get_latest_balena_etcher_url,
     get_latest_prometheus_url,
+    get_download_location,
     download_python,
+)
+from src.settings import (
+    load_settings
 )
 
 

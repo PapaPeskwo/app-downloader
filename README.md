@@ -17,7 +17,8 @@ This project is a Python script that can download and install Terraform on Windo
 - pytest-cov==4.0.0
 - pytest-django==4.5.2
 - bs4==0.0.1
-
+- packaging==21.3
+- pytest-mock==3.10.0
 
 ## Supported apps 
 - Terraform
@@ -36,7 +37,7 @@ pip install -r requirements.txt
 After installing the dependencies, you can run the script by executing the following command in your terminal:
 
 ```bash
-python src/app_downloader.py
+python src/main.py
 ```
 The script will present a menu with options to list and download supported applications. It automatically detects your operating system and downloads the latest version of the selected apps from their official sources.
 
