@@ -56,12 +56,30 @@ def get_latest_balena_etcher_url():
 
     raise ValueError("Unable to find the latest Balena Etcher download URL for Windows.")
 
+def get_latest_prometheus_url():
+    api_url = "https://api.github.com/repos/prometheus/prometheus/releases/latest"
+    response = requests.get(api_url)
+    if response.status_code != 200:
+        raise ValueError("Unable to fetch the latest Prometheus version from GitHub API.")
+
+    data = json.loads(response.content)
+    assets = data.get("assets")
+    if not assets:
+        raise ValueError("Unable to find the latest Prometheus release from GitHub API.")
+
+    for asset in assets:
+        if asset["name"].startswith("prometheus") and asset["name"].endswith("windows-amd64.zip"):
+            return asset["browser_download_url"]
+
+    raise ValueError("Unable to find the latest Prometheus download URL for Windows.")
+
 
 def download_apps(app_list):
     apps = {
         "terraform": get_latest_terraform_url(),
         "docker": "https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe",
-        "balena_etcher": get_latest_balena_etcher_url()
+        "balena_etcher": get_latest_balena_etcher_url(),
+        "prometheus": get_latest_prometheus_url()
     }
 
     for app_name in app_list:
@@ -78,6 +96,7 @@ def list_available_downloads():
     print("1. Terraform")
     print("2. Docker")
     print("3. Balena Etcher")
+    print("4. Prometheus")
 
 def main_menu():
     print("\n" + "=" * 30)
@@ -107,7 +126,8 @@ def download_apps_menu():
     app_map = {
         "1": "terraform",
         "2": "docker",
-        "3": "balena_etcher"
+        "3": "balena_etcher",
+        "4": "prometheus"
     }
 
     app_list = [app_map.get(app) for app in selected_apps]
