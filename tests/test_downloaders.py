@@ -12,6 +12,8 @@ from src.downloaders import (
     get_latest_prometheus_url,
     get_download_location,
     download_python,
+    get_latest_notepad_plus_plus_url,
+    download_java,
 )
 from src.settings import (
     load_settings
@@ -42,3 +44,20 @@ def test_download_prometheus():
     output_file = download_file(prometheus_url)
     assert os.path.isfile(output_file)
     os.remove(output_file)
+
+def test_download_notepad_plus_plus():
+    notepad_plus_plus_url = get_latest_notepad_plus_plus_url()
+    output_file = download_file(notepad_plus_plus_url)
+    assert os.path.isfile(output_file)
+    os.remove(output_file)
+
+def test_download_java_17():
+    output_file = download_java("17")
+    assert os.path.isfile(output_file)
+    os.remove(output_file)
+
+def test_download_java_20():
+    output_file = download_java("20")
+    assert os.path.isfile(output_file)
+    os.remove(output_file)
+
