@@ -26,6 +26,8 @@ This project is a Python script that can download and install Terraform on Windo
 - Balena Etcher
 - Prometheus
 - Python
+- Java 17 and 20 LTS
+- Notepad++
 
 ## Getting Started
 
