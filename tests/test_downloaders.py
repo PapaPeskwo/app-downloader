@@ -61,3 +61,27 @@ def test_download_java_20():
     assert os.path.isfile(output_file)
     os.remove(output_file)
 
+def test_download_python_3_7():
+    output_file = download_python("3.7")
+    assert os.path.isfile(output_file)
+    os.remove(output_file)
+
+def test_download_python_3_8():
+    output_file = download_python("3.8")
+    assert os.path.isfile(output_file)
+    os.remove(output_file)
+
+def test_download_python_3_9():
+    output_file = download_python("3.9")
+    assert os.path.isfile(output_file)
+    os.remove(output_file)
+
+def test_download_python_3_10():
+    output_file = download_python("3.10")
+    assert os.path.isfile(output_file)
+    os.remove(output_file)
+
+def test_download_python_3_11():
+    output_file = download_python("3.11")
+    assert os.path.isfile(output_file)
+    os.remove(output_file)
