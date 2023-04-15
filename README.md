@@ -3,7 +3,7 @@
 
 # App Downloader
 
-This project is a Python script that can download and install Terraform on Windows and Linux machines.
+This project is a Python script that can download several apps for Windows 10.
 
 
 ## Prerequisites
