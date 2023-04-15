@@ -171,7 +171,7 @@ python_versions = {
     "3.11": "https://www.python.org/ftp/python/3.11.3/python-3.11.3-amd64.exe",
 }
 
-def download_python():
+def download_python(selected_version=None):
     from packaging import version
 
     base_url = "https://www.python.org"
@@ -190,11 +190,13 @@ def download_python():
 
     sorted_versions = sorted(python_versions.keys(), key=lambda ver: version.parse(ver), reverse=True)
 
-    print("Available Python versions:")
-    for ver in sorted_versions:
-        print(ver)
+    if not selected_version:
+        print("Available Python versions:")
+        for ver in sorted_versions:
+            print(ver)
 
-    selected_version = input("Enter the Python version you want to download: ")
+        selected_version = input("Enter the Python version you want to download: ")
+
     if selected_version in python_versions:
         url = python_versions[selected_version]
         file_name = f"python-{selected_version}-amd64.exe"
@@ -206,6 +208,7 @@ def download_python():
     else:
         print("Invalid Python version selected.")
         return None
+
 
 def download_java(selected_version=None):
     java_versions = {
