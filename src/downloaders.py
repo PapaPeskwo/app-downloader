@@ -207,17 +207,19 @@ def download_python():
         print("Invalid Python version selected.")
         return None
 
-def download_java():
+def download_java(selected_version=None):
     java_versions = {
         "20": "https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.exe",
         "17": "https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe",
     }
 
-    print("Available Java LTS versions:")
-    for version in java_versions:
-        print(f"Java {version}")
+    if not selected_version:
+        print("Available Java LTS versions:")
+        for version in java_versions:
+            print(f"Java {version}")
 
-    selected_version = input("Enter the Java LTS version you want to download (17 or 20): ")
+        selected_version = input("Enter the Java LTS version you want to download (17 or 20): ")
+
     if selected_version in java_versions:
         url = java_versions[selected_version]
         file_name = f"jdk-{selected_version}_windows-x64_bin.exe"
@@ -229,6 +231,7 @@ def download_java():
     else:
         print("Invalid Java LTS version selected.")
         return None
+
 
 def get_latest_notepad_plus_plus_url():
     api_url = "https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest"
