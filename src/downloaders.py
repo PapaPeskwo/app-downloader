@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 
 from settings import load_settings, get_download_location
 
-APPS = ["terraform", "docker", "balena_etcher", "prometheus", "python", "java"]
+APPS = ["terraform", "docker", "balena_etcher", "prometheus", "python", "java", "notepad_plus_plus"]
 
 def list_available_downloads():
     print("\nAvailable downloads:")
@@ -66,6 +66,7 @@ def download_apps(app_list):
         "prometheus": get_latest_prometheus_url(),
         "python": None,
         "java": None,
+        "notepad_plus_plus": get_latest_notepad_plus_plus_url(),
     }
 
     for app_name in app_list:
@@ -94,7 +95,9 @@ def download_apps_menu():
         "4": "prometheus",
         "5": "python",
         "6": "java",
+        "7": "notepad_plus_plus",
     }
+
 
     app_list = [app_map.get(app) for app in selected_apps]
     download_apps(app_list)
@@ -226,3 +229,20 @@ def download_java():
     else:
         print("Invalid Java LTS version selected.")
         return None
+
+def get_latest_notepad_plus_plus_url():
+    api_url = "https://api.github.com/repos/notepad-plus-plus/notepad-plus-plus/releases/latest"
+    response = requests.get(api_url)
+    if response.status_code != 200:
+        raise ValueError("Unable to fetch the latest Notepad++ version from GitHub API.")
+
+    data = json.loads(response.content)
+    assets = data.get("assets")
+    if not assets:
+        raise ValueError("Unable to find the latest Notepad++ release from GitHub API.")
+
+    for asset in assets:
+        if asset["name"].startswith("npp") and asset["name"].endswith("Installer.x64.exe"):
+            return asset["browser_download_url"]
+
+    raise ValueError("Unable to find the latest Notepad++ download URL for Windows.")
