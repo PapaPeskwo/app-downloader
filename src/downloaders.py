@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 
 from settings import load_settings, get_download_location
 
-APPS = ["terraform", "docker", "balena_etcher", "prometheus", "python"]
+APPS = ["terraform", "docker", "balena_etcher", "prometheus", "python", "java"]
 
 def list_available_downloads():
     print("\nAvailable downloads:")
@@ -33,7 +33,8 @@ def show_progress(current, total, file_path):
     sys.stdout.flush()
 
     if current == total:
-        print()
+        print("\n")
+
 
 
 def download_file(url):
@@ -63,7 +64,8 @@ def download_apps(app_list):
         "docker": "https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe",
         "balena_etcher": get_latest_balena_etcher_url(),
         "prometheus": get_latest_prometheus_url(),
-        "python": None,  
+        "python": None,
+        "java": None,
     }
 
     for app_name in app_list:
@@ -71,10 +73,13 @@ def download_apps(app_list):
         if url:
             output_file = download_file(url)
             print(f"\n{app_name} downloaded successfully as {output_file}\n")
-        elif app_name == "python":  
+        elif app_name == "python":
             download_python()
+        elif app_name == "java":
+            download_java()
         else:
             print(f"{app_name} is not available for download.")
+
 
 def download_apps_menu():
     list_available_downloads()
@@ -87,7 +92,8 @@ def download_apps_menu():
         "2": "docker",
         "3": "balena_etcher",
         "4": "prometheus",
-        "5": "python"
+        "5": "python",
+        "6": "java",
     }
 
     app_list = [app_map.get(app) for app in selected_apps]
@@ -196,4 +202,27 @@ def download_python():
         return output_file
     else:
         print("Invalid Python version selected.")
+        return None
+
+def download_java():
+    java_versions = {
+        "20": "https://download.oracle.com/java/20/latest/jdk-20_windows-x64_bin.exe",
+        "17": "https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe",
+    }
+
+    print("Available Java LTS versions:")
+    for version in java_versions:
+        print(f"Java {version}")
+
+    selected_version = input("Enter the Java LTS version you want to download (17 or 20): ")
+    if selected_version in java_versions:
+        url = java_versions[selected_version]
+        file_name = f"jdk-{selected_version}_windows-x64_bin.exe"
+        output_file = os.path.join(get_download_location(), file_name)
+        print(f"Downloading {file_name}...")
+        download_file(url)
+        print(f"Downloaded {file_name} successfully.")
+        return output_file
+    else:
+        print("Invalid Java LTS version selected.")
         return None
