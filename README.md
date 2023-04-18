@@ -19,6 +19,7 @@ This project is a Python script that can download several apps for Windows 10.
 - bs4==0.0.1
 - packaging==21.3
 - pytest-mock==3.10.0
+- console-menu==0.8.0
 
 ## Supported apps 
 - Terraform
